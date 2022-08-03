@@ -26,4 +26,6 @@ int main()
   root->right = new Node(3);
 }
 
-
+Traversal Techmiques :
+  1) DFS (Inorder, Preorder, Postorder)
+  2) BFS (Levelorder);  
