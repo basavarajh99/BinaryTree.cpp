@@ -27,3 +27,48 @@ vector<int> postorder(Node* root)
   return post;
   
 }
+
+//using 1 stack
+//TC: O(2N) SC: O(N)
+
+vector<int> postOrder(Node* cur)
+{
+   vector<int> post;
+  
+  if(!cur) return post;
+  
+  stack<int> st;
+  
+  while(cur || !st.empty())
+  {
+    if(cur)
+    {
+       st.push(cur);
+      cur = cur->left;
+    }
+    else
+    {
+      Node* temp = st.top()->right;
+      st.pop();
+      
+      if(!temp)
+      {
+        temp = st.top();
+        st.pop();
+        post.push_back(temp->data);
+        
+        while(!st.empty() and st.top()->right = temp)
+        {
+          temp = st.top();
+          st.pop();
+          post.push_back(temp->val);
+        }
+      }
+      
+      else
+        cur = temp;
+    } 
+  }
+  
+  return post;
+}
