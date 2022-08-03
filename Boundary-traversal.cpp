@@ -1,7 +1,7 @@
 //anticlockwise
 //left_boundary_excluding_leaf -> leaf -> right_boundary_excluding_leaf_in_reverse_fashion
 //for leaf_nodes do inorder traversal
-
+//TC: O(H)+O(H)+O(N) SC: O(N)
 bool isleaf(Node* root)
 {
   if(!root->left and !root->right)
