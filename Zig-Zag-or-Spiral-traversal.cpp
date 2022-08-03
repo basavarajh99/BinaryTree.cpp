@@ -8,7 +8,7 @@ vector<vector<int>> zigzag (Node* root)
   
   queue<Node*> q;
   q.push(root);
-  bool fl = 0;
+  bool fl = true;
   
   while(!q.empty())
   {
@@ -20,7 +20,7 @@ vector<vector<int>> zigzag (Node* root)
       Node* node = q.front();
       q.pop();
       
-      int index = (fl) ? i : size-1-i;
+      int index = (fl) ? i : size-1-i; // depending on the flag; if flag = true then insert front else insert back.
       
       level[index] = node->val;
       
