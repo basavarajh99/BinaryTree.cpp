@@ -3,7 +3,9 @@
 //case 2: before going to left, connect right most node to root and then move to left
 //case 3: if the thread already there then remove it before going to right
 // thread will be node->right
+//TC: O(N) SC: O(1)
 
+//Morris-Inorder
 vector<int> morris(Node* root)
 {
   vector<int> inorder;
@@ -23,7 +25,7 @@ vector<int> morris(Node* root)
       Node* prev = cur->left;
       
       while(prev->right and prev->right != cur)
-        prev = pre->right;
+        prev = prev->right;
       
       if(!prev->right) //right most node in left sub tree
       {
@@ -40,4 +42,43 @@ vector<int> morris(Node* root)
   }
   
   return inorder;
+}
+
+//Morris-Preorder
+vector<int> morris(Node* root)
+{
+  vector<int> preorder;
+  if(!root) return preorder;
+  
+  Node* cur = root;
+  
+  while(cur)
+  {
+    if(!cur->left) // 1st case
+    {
+      preorder.push_back(cur->val);
+      cur = cur->right;
+    }
+    else //2nd case
+    {
+      Node* prev = cur->left;
+      
+      while(prev->right and prev->right != cur)
+        prev = prev->right;
+      
+      if(!prev->right) //right most node in left sub tree
+      {
+        prev->right = cur;
+        preorder.push_back(cur->val);
+        cur = cur->left;
+      }
+      else // if there is already a thread
+      {
+        prev->right = NULL;
+        cur - cur->right;
+      }
+    }
+  }
+  
+  return preorder;
 }
