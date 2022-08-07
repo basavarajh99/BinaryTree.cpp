@@ -3,29 +3,29 @@ vector<int> postorder(Node* root)
 {
   vector<int> post;
   if(!root) return post;
-  
-  stack<Node*> st1, st2;
+
+  stack<TreeNode*> st1, st2;
   st1.push(root);
-  
+
   while(!st1.empty())
   {
     root = st1.top();
     st1.pop();
     st2.push(root);
     if(root->left)
-      st2.push(root->left);
+      st1.push(root->left);
     if(root->right)
-      st2.push(root->right);
+      st1.push(root->right);
   }
-  
+
   while(!st2.empty())
   {
     post.push_back(st2.top()->val);
     st2.pop();
   }
-  
+
   return post;
-  
+
 }
 
 //using 1 stack
@@ -35,40 +35,38 @@ vector<int> postOrder(Node* cur)
 {
    vector<int> post;
   
-  if(!cur) return post;
-  
-  stack<int> st;
-  
-  while(cur || !st.empty())
-  {
-    if(cur)
+    if(cur==NULL) return post;
+
+    stack<TreeNode*> st;
+
+    while(cur!=NULL || !st.empty())
     {
-       st.push(cur);
-      cur = cur->left;
-    }
-    else
-    {
-      Node* temp = st.top()->right;
-      st.pop();
-      
-      if(!temp)
+      if(cur!=NULL)
       {
-        temp = st.top();
-        st.pop();
-        post.push_back(temp->data);
-        
-        while(!st.empty() and st.top()->right = temp)
+         st.push(cur);
+        cur = cur->left;
+      }
+      else
+      {
+        TreeNode* temp = st.top()->right;
+        if(temp==NULL)
         {
           temp = st.top();
           st.pop();
           post.push_back(temp->val);
+
+          while(!st.empty() and temp == st.top()->right)
+          {
+            temp = st.top();
+            st.pop();
+            post.push_back(temp->val);
+          }
         }
-      }
-      
-      else
-        cur = temp;
-    } 
-  }
-  
-  return post;
+
+        else
+          cur = temp;
+      } 
+    }
+
+    return post;
 }
