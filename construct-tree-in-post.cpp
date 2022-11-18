@@ -1,28 +1,38 @@
-Node* build(vector<int>& in, int instart, int inend, vector<int>& post, int poststart, int postend, map<int, int>& mp)
-{
-  if(instart>inend || poststart>postend) return NULL;
-  
-  Node* root = new Node(post[postend]);
-  
-  int inroot = mp[root->val];
-  int numsleft = inroot - instart;
-  
-  root->left = build(in, instart, inroot-1, post, poststart, poststart+numsleft-1, mp);
-  root->right = build(in, inroot+1, inend, post, post+numsleft, postend-1, mp);
-  
-  return root;
-}
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+     TreeNode* construct(vector<int>& inorder, int in_start, int in_end, vector<int>& postorder, int post_start, int post_end, map<int, int>& mp){
+        if(post_start > post_end || in_start > in_end) return NULL;
 
-Node* buildtree(vector<int>& in, vector<int>& post)
-{
-  if(in.size() != post.size()) return NULL;
-  
-  map<int, int> mp;
-  
-  for(int i=0; i<in.size(); i++)
-    mp[in[i]]++;
-  
-  Node* root = build(in, 0, in.size()-1, post, 0, post.size()-1, mp);
-  
-  return root;
-}
+        TreeNode* root = new TreeNode(postorder[post_end]);
+        
+        int in_root = mp[root->val];
+        int remains = in_root - in_start;
+
+        root->left =  construct(inorder, in_start, in_root-1, postorder, post_start, post_start+remains-1, mp);
+
+        root->right =  construct(inorder, in_root+1, in_end, postorder, post_start+remains, post_end-1, mp);
+
+        return root;
+    }
+public:
+    TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder) {
+          map<int, int> mp;
+
+        for(int i = 0; i < inorder.size(); i++)
+            mp[inorder[i]] = i;
+
+        TreeNode* root = construct(inorder, 0, inorder.size()-1, postorder, 0, postorder.size()-1, mp);
+
+        return root;
+    }
+};
