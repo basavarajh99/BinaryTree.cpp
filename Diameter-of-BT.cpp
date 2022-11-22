@@ -15,21 +15,23 @@
 // }
 
 //efficient: TC: O(N)
-int height(Node* root, int& diameter)
-{
-  if(!node)
-    return 0;
-  
-  int lh = height(root->left, diameter);
-  int rh = height(root->right, diameter);
-  
-  diameter = max(diameter, lh+rh);
-  return 1+max(lh, rh);
-}
-
-int diameter(Node* root)
-{
-  int diameter = 0;
-  height(root, diameter);
-  return diameter;
-}
+class Solution {
+    int diam(Node* root, int& d){
+        if(!root) return 0;
+        
+        int l = diam(root->left, d);
+        int r = diam(root->right, d);
+        
+        d = max(d, 1+l+r);
+        
+        return 1 + max(l, r);
+    }
+  public:
+    // Function to return the diameter of a Binary Tree.
+    int diameter(Node* root) {
+        // Your code here
+        int d = 0;
+        diam(root, d);
+        return d;
+    }
+};
